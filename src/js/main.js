@@ -21,10 +21,8 @@ function onSearch(evt) {
   const value = evt.currentTarget.searchQuery.value.trim();
   picturesApiService.resetPage();
 
-  if (value === '') {
-    return Notify.failure('Please, enter a valid query');
-   }
-
+  if (value === '') return Notify.failure('Please, enter a valid query');
+  
   picturesApiService.searchQuery = value;
 
   clearPicturesList();
@@ -106,8 +104,8 @@ const callback = entries => {
   });
 };
 
-options = {
-  rootMargin: '150px',
+const options = {
+  rootMargin: "150px",
 };
 const observer = new IntersectionObserver(callback, options);
 
