@@ -19,8 +19,13 @@ function onSearch(evt) {
   evt.preventDefault();
 
   const value = evt.currentTarget.searchQuery.value.trim();
-  picturesApiService.searchQuery = value;
   picturesApiService.resetPage();
+
+  if (value === '') {
+    return Notify.failure('Please, enter a valid query');
+   }
+
+  picturesApiService.searchQuery = value;
 
   clearPicturesList();
   createGallery().finally(() => searchForm.reset());
@@ -29,9 +34,10 @@ function onSearch(evt) {
 async function createGallery() {
   try {
     const pictures = await picturesApiService.searchPictures();
-    console.log(pictures);
     if (pictures.length < 40 && pictures.length > 0) {
-      Notify.warning("We're sorry, but you've reached the end of search results.");
+      Notify.warning(
+        "We're sorry, but you've reached the end of search results."
+      );
     }
     if (pictures.length === 0) {
       throw new Error('');
